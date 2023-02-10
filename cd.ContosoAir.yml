@@ -8,7 +8,8 @@ trigger:
 
 resources:
  pipelines:
-  - pipeline: buildContosoAir # identifier for the resource used in pipeline resource variables
+  - pipeline: JayhwinContosoAir # identifier for the resource used in pipeline resource variables
+
     source: Student1-28584796.ContosoAir # name of the pipeline that produces the artifact
     trigger:
         branches:
@@ -19,13 +20,14 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: DownloadPipelineArtifact@2
+- task: DownloadBuildArtifacts@1
   inputs:
     buildType: 'specific'
     project: 'cc77950f-acb6-4152-a813-e47384dd09c4'
-    definition: '3'
+    pipeline: '3'
     buildVersionToDownload: 'latest'
-    targetPath: '$(Pipeline.Workspace)'
+    downloadType: 'single'
+    downloadPath: '$(System.ArtifactsDirectory)'
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
